@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Score Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="header">
+        <img src="pingpong.jpg" id="main-img" />
+        <h1>Ping Pong Score Tracker</h1>
+      </header>
+      <div class="controls">
+        <p id="score">
+          <span id="score1">0</span> to <span id="score2">0</span>
+        </p>
+        <p class="info">Use the buttons below to keep score</p>
+        <div class="selectGroup">
+          <p>Playing To:</p>
+          <select id="select"></select>
+        </div>
+
+        <div class="btnContainer">
+          <button class="btn btn-3 btn-green" id="add1">
+            <div>+1 Player One</div>
+          </button>
+          <button class="btn btn-3 btn-blue" id="add2">
+            <div>+1 Player Two</div>
+          </button>
+          <button class="btn btn-3 btn-red" id="reset"><div>Reset</div></button>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
