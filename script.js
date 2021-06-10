@@ -1,78 +1,82 @@
 const select = document.querySelector('#select');
 const scoreEl = document.querySelector('#score');
-const score1El = document.querySelector('#score1');
-const score2El = document.querySelector('#score2');
+const reset = document.querySelector('#reset');
+
+const p1 = {
+  score: 0,
+  scoreEl: document.querySelector('#score1'),
+  btn: document.querySelector('#add1'),
+};
+
+const p2 = {
+  score: 0,
+  scoreEl: document.querySelector('#score2'),
+  btn: document.querySelector('#add2'),
+};
 
 const INITIAL_MAX = 5;
-const MAXMAX_SCORE = 10;
+const MINMAX_SCORE = 3;
+const MAXMAX_SCORE = 11;
 let maxScore = INITIAL_MAX;
-let score1 = 0;
-let score2 = 0;
+
+function init() {
+  for (let i = MINMAX_SCORE; i <= MAXMAX_SCORE; i++) {
+    let el = document.createElement('option');
+    el.value = i;
+    el.innerText = i;
+    if (i == INITIAL_MAX) {
+      el.selected = true;
+    }
+    select.appendChild(el);
+  }
+}
 
 const canUpdateScore = () => {
-  return score1 < maxScore && score2 < maxScore;
-};
-
-const resetColors = () => {
-  score1El.classList.remove('text-green');
-  score1El.classList.remove('text-red');
-  score2El.classList.remove('text-green');
-  score2El.classList.remove('text-red');
-};
-
-const updateScore = () => {
-  score1El.innerText = `${score1}`;
-  score2El.innerText = `${score2}`;
-
-  if (score1 >= maxScore) {
-    resetColors();
-    score1El.classList.add('text-green');
-    score2El.classList.add('text-red');
-  } else if (score2 >= maxScore) {
-    resetColors();
-    score1El.classList.add('text-red');
-    score2El.classList.add('text-green');
-  }
+  return p1.score < maxScore && p2.score < maxScore;
 };
 
 let resetScore = () => {
-  score1 = 0;
-  score2 = 0;
+  p1.score = 0;
+  p2.score = 0;
   updateScore();
   resetColors();
 };
 
-for (let i = 1; i <= MAXMAX_SCORE; i++) {
-  let el = document.createElement('option');
-  el.value = i;
-  el.innerText = i;
-  if (i == INITIAL_MAX) {
-    el.selected = true;
+const resetColors = () => {
+  for (let p of [p1, p2]) {
+    p.scoreEl.classList.remove('text-green', 'text-red');
   }
-  select.appendChild(el);
-}
+};
+
+const updateScore = () => {
+  p1.scoreEl.innerText = p1.score;
+  p2.scoreEl.innerText = p2.score;
+
+  if (p1.score >= maxScore) {
+    resetColors();
+    p1.scoreEl.classList.add('text-green');
+    p2.scoreEl.classList.add('text-red');
+  } else if (p2.score >= maxScore) {
+    resetColors();
+    p1.scoreEl.classList.add('text-red');
+    p2.scoreEl.classList.add('text-green');
+  }
+};
 
 select.addEventListener('change', (e) => {
   maxScore = e.target.value;
   resetScore();
 });
 
-const add1Btn = document.querySelector('#add1');
-const add2Btn = document.querySelector('#add2');
-const reset = document.querySelector('#reset');
-
-add1Btn.addEventListener('click', () => {
-  if (canUpdateScore()) {
-    score1++;
-    updateScore();
-  }
-});
-
-add2Btn.addEventListener('click', () => {
-  if (canUpdateScore()) {
-    score2++;
-    updateScore();
-  }
-});
+for (let p of [p1, p2]) {
+  p.btn.addEventListener('click', () => {
+    if (canUpdateScore()) {
+      p.score++;
+      updateScore();
+    }
+  });
+}
 
 reset.addEventListener('click', resetScore);
+
+init();
